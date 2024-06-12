@@ -2,20 +2,20 @@
 FROM openjdk:11-jre-slim
 
 # Thiết lập các biến môi trường cho Spark
-ENV SPARK_VERSION=3.2.0
-ENV HADOOP_VERSION=3.2
+ENV SPARK_VERSION=3.5.1
+ENV HADOOP_VERSION=3
+ENV SCALA_VERSION=2.13
 
 # Cài đặt các phụ thuộc
 RUN apt-get update && \
     apt-get install -y curl python3 python3-pip sqlite3 procps wget && \
     apt-get clean
 
-# Tải Spark từ URL cụ thể và giải nén
-RUN set -eux; \
-    wget -O /tmp/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
-    tar xvzf /tmp/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -C /opt/ && \
-    mv /opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark && \
-    rm /tmp/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
+# Tải và giải nén Spark từ link chính xác
+RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    tar -xzf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    mv spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark && \
+    rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
 
 # Thiết lập các biến môi trường cho Spark
 ENV SPARK_HOME=/opt/spark
