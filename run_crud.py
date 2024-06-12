@@ -11,13 +11,13 @@ logger = logging.getLogger(__name__)
 def create_spark_session():
     spark = SparkSession.builder \
         .appName("SparkSQL CRUD Operations") \
-        .config("spark.jars", "/opt/sqlite-jdbc-3.34.0.jar") \
+        .config("spark.jars", "/opt/spark-3.5.1-bin-hadoop3/jars/sqlite-jdbc-3.34.0.jar") \
         .getOrCreate()
     return spark
 
 def connect_to_db():
     try:
-        conn = sqlite3.connect('/opt/spark/examples/src/main/resources/people.db')
+        conn = sqlite3.connect('/opt/spark-3.5.1-bin-hadoop3/examples/src/main/resources/people.db')
         logger.info("Database connection successful.")
         return conn
     except Exception as e:
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     conn = connect_to_db()
 
     if conn:
-        jdbc_url = "jdbc:sqlite:/opt/spark/examples/src/main/resources/people.db"
+        jdbc_url = "jdbc:sqlite:/opt/spark-3.5.1-bin-hadoop3/examples/src/main/resources/people.db"
         jdbc_table = "people"
 
         create_temp_view(spark, jdbc_url, jdbc_table)

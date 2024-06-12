@@ -6,7 +6,7 @@ def initialize_db():
     print("Starting database initialization...")
 
     # Connect to SQLite database
-    conn = sqlite3.connect('/opt/spark/examples/src/main/resources/people.db')
+    conn = sqlite3.connect('/opt/spark-3.5.1-bin-hadoop3/examples/src/main/resources/people.db')
     c = conn.cursor()
 
     # Create table
