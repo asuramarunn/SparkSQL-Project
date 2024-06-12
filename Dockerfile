@@ -11,11 +11,13 @@ RUN apt-get update && \
     apt-get install -y curl python3 python3-pip sqlite3 procps wget && \
     apt-get clean
 
-# Tải và giải nén Spark từ link chính xác
-RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
-    tar -xzf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
-    mv spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark && \
-    rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
+# Tải Spark từ các URL khả dụng
+RUN set -eux; \
+    wget -O /tmp/spark-3.5.1-bin-hadoop3-scala2.13.tgz https://archive.apache.org/dist/spark/spark-3.5.1/spark-3.5.1-bin-hadoop3-scala2.13.tgz && \
+    tar xvzf /tmp/spark-3.5.1-bin-hadoop3-scala2.13.tgz -C /opt/ && \
+    mv /opt/spark-3.5.1-bin-hadoop3-scala2.13 /opt/spark && \
+    rm /tmp/spark-3.5.1-bin-hadoop3-scala2.13.tgz
+
 
 # Thiết lập các biến môi trường cho Spark
 ENV SPARK_HOME=/opt/spark
